@@ -5,6 +5,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { pdfToText } from 'pdf-ts';
 import { promisify } from 'util';
+import { pdfUrls } from './pdf-urls';
 
 const logger = console;
 
@@ -115,7 +116,11 @@ export const getBillText = async (pdfUrl: string, downloadPath: string) => {
   }
 };
 
-getBillText(
-  'https://bills.parliament.uk/publications/56005/documents/4984',
-  __dirname
-);
+const getBillTexts = async (pdfUrls: string[], downloadPath: string) => {
+  for (const pdfUrl of pdfUrls) {
+    const text = await getBillText(pdfUrl, downloadPath);
+    console.log(text);
+  }
+};
+
+getBillTexts(pdfUrls, __dirname);
